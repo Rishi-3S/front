@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document2</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .headline-video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+
+        @keyframes slide {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .logos {
+            overflow: hidden;
+            padding: 60px 0;
+            background: white;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .logos:before,
+        .logos:after {
+            position: absolute;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            content: "";
+            z-index: 2;
+        }
+
+        .logos:before {
+            left: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+        }
+
+        .logos:after {
+            right: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+        }
+
+        .logos:hover .logos-slide {
+            animation-play-state: paused;
+        }
+
+        .logos-slide {
+            display: inline-block;
+            animation: 35s slide infinite linear;
+        }
+
+        .logos-slide img {
+            height: 90px;
+            margin: 0 40px;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            background-color: #000;
+            padding: 50px 0;
+            height: 700px;
+        }
+
+        .text {
+            font-size: 7rem;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .strike-through {
+            position: relative;
+            display: inline-block;
+            color: white;
+        }
+
+        .strike-through::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 50%;
+            width: 0;
+            height: 2px;
+            background-color: #ccff00;
+            transition: width 2s;
+        }
+
+        .reveal {
+            position: relative;
+            display: inline-block;
+            color: #ccff00;
+            opacity: 0;
+            margin-left: 10px;
+            transition: opacity 5s, transform 5s;
+        }
+
+        
+            .text {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+            transition: opacity 5s, transform 2s;
+        
+
+        }
+
+        .animated-strike .strike-through::after {
+            width: 100%;
+        }
+
+        .animated-reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes reveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <!-- <img src="./image.svg.jpg" class="headline-image" /> -->
+   
+        <video class="headline-video" autoplay muted loop>
+            <source src="header.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+    </header>
+
+    <div class="logos">
+        <div class="logos-slide">
+            <img src="./amazon.svg.jpg" />
+            <img src="./benz.svg.jpg" />
+            <img src="./disnep.svg.jpg" />
+            <img src="./google.svg.jpg" />
+            <img src="./logo.svg.jpg" />
+            <img src="./microsoft.svg.jpg" />
+            <img src="./nike.svg.jpg" />
+            <img src="./walmart.svg.jpg" />
+            <img src="./sap.svg.jpg" />
+        </div>
+        
+        <div class="logos-slide">
+            <img src="./amazon.svg.jpg" />
+            <img src="./benz.svg.jpg" />
+            <img src="./disnep.svg.jpg" />
+            <img src="./google.svg.jpg" />
+            <img src="./logo.svg.jpg" />
+            <img src="./microsoft.svg.jpg" />
+            <img src="./nike.svg.jpg" />
+            <img src="./walmart.svg.jpg" />
+            <img src="./sap.svg.jpg" />
+        </div>
+    </div>
+
+    <div class="container" id="animated-section">
+        <p class="text">
+            Digital Solutions for <br>
+            forward-thinking <br>
+            <span class="strike-through">companies</span>
+            <span class="reveal" style="font-family: cursive;">People</span>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedSection = document.getElementById('animated-section');
+            const strikeThrough = animatedSection.querySelector('.strike-through');
+            const reveal = animatedSection.querySelector('.reveal');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add animation classes
+                        animatedSection.classList.add('animated-strike');
+                        reveal.classList.add('animated-reveal');
+                        // Stop observing after the animation has been triggered
+                        observer.unobserve(animatedSection);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(animatedSection);
+        });
+    </script>
+</body>
+</html>
